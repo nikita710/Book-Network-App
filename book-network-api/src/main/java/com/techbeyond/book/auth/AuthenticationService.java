@@ -116,7 +116,7 @@ public class AuthenticationService {
             throw new RuntimeException(" Token expires new token has been sent! ");
         }
 
-        User user = userRepository.findById(String.valueOf(savedToken.getUser().getId()))
+        User user = userRepository.findById(savedToken.getUser().getId())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
         user.setEnabled(true);
         userRepository.save(user);
