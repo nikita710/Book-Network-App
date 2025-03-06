@@ -1,5 +1,6 @@
 package com.techbeyond.book.handler;
 
+import com.techbeyond.book.exception.OperationNotPermittedException;
 import jakarta.mail.MessagingException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -12,8 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.techbeyond.book.handler.BusinessErrorCodes.ACCOUNT_DISABLED;
-import static com.techbeyond.book.handler.BusinessErrorCodes.ACCOUNT_LOCKED;
+import static com.techbeyond.book.handler.BusinessErrorCodes.*;
 import static org.springframework.http.HttpStatus.*;
 
 @RestControllerAdvice
@@ -51,8 +51,8 @@ public class GlobalExceptionHandler {
                 .status(UNAUTHORIZED)
                 .body(
                         ExceptionResponse.builder()
-                                .businessErrorCode(ACCOUNT_DISABLED.getCode())
-                                .businessErrorDescription(ACCOUNT_DISABLED.getDescription())
+                                .businessErrorCode(BAD_CREDENTIALS.getCode())
+                                .businessErrorDescription(BAD_CREDENTIALS.getDescription())
                                 .error(exp.getMessage())
                                 .build()
                 );
@@ -97,5 +97,15 @@ public class GlobalExceptionHandler {
                 );
     }
 
-    
+    @ExceptionHandler(OperationNotPermittedException.class)
+    public ResponseEntity<ExceptionResponse> handleValidationException(OperationNotPermittedException exp) {
+        return ResponseEntity.status(BAD_REQUEST)
+                .body(
+                        ExceptionResponse.builder()
+                                .error(exp.getMessage())
+                                .build()
+                );
+    }
+
+
 }

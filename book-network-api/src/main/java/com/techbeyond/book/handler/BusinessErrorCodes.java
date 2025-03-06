@@ -17,13 +17,13 @@ public enum BusinessErrorCodes {
     @Getter
     private final int code;
     @Getter
-    private final String description;
-    @Getter
     private final HttpStatus httpStatus;
+    @Getter
+    private final String description;
 
     BusinessErrorCodes(int code, HttpStatus status, String description) {
         this.code = code;
-        this.description = description;
         this.httpStatus = status;
+        this.description = description;
     }
 }

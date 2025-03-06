@@ -42,4 +42,12 @@ public class Book extends BaseEntity {
     @OneToMany(mappedBy = "book")
     private List<BookTransactionHistory> bookTransactionHistoryList;
 
+    public double getRating() {
+        if (feedbackList == null || feedbackList.isEmpty()) {
+            return 0.0;
+        }
+        double rate = feedbackList.stream().mapToDouble(Feedback::getRating).average().orElse(0.0);
+        return Math.round(rate * 10.0) / 10.0;
+    }
+
 }
