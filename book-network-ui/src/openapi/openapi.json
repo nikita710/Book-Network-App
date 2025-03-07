@@ -642,9 +642,6 @@
           },
           "synopsis": {
             "type": "string"
-          },
-          "sharable": {
-            "type": "boolean"
           }
         },
         "required": ["authorName", "isbn", "synopsis", "title"]
@@ -824,9 +821,6 @@
             "type": "string"
           },
           "isbn": {
-            "type": "string"
-          },
-          "synopsis": {
             "type": "string"
           },
           "rating": {

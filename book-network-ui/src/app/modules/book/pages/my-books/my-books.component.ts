@@ -17,22 +17,10 @@ import { BookCardComponent } from '../../components/book-card/book-card.componen
 export class MyBooksComponent implements OnInit {
   private bookService = inject(BookService);
   private router = inject(Router);
-  bookDemo: BookResponse = {
-    archived: false,
-    authorName: 'Nikita',
-    cover: 'https://random-image-pepebigotes.vercel.app/api/random-image',
-    id: 101,
-    isbn: 'ADFT852',
-    ownerName: 'Shital',
-    rating: 4.2,
-    sharable: false,
-    synopsis: 'good one',
-    title: 'Positive Attribute',
-  };
-
   bookResponse: PageResponseBookResponse = {};
   page = 0;
   size = 5;
+  pages: number[] = [];
 
   ngOnInit(): void {
     this.findAllBooks();
@@ -43,13 +31,36 @@ export class MyBooksComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.bookResponse = response;
+          this.pages = Array(this.bookResponse.totalPages)
+            .fill(0)
+            .map((x, i) => i);
         },
       });
   }
 
-  onShareBook(book: BookResponse) {}
-  onEditBook(book: BookResponse) {}
-  onArchiveBook(book: BookResponse) {}
+  onShareBook(book: BookResponse) {
+    this.bookService
+      .updateShareableStatus({
+        'book-id': book.id as number,
+      })
+      .subscribe({
+        next: () => {
+          book.sharable = !book.sharable;
+        },
+      });
+  }
+  onEditBook(book: BookResponse) {
+    this.router.navigate([`/books/manage/${book.id}`]);
+  }
+  onArchiveBook(book: BookResponse) {
+    this.bookService
+      .updateArchivedStatus({ 'book-id': book.id as number })
+      .subscribe({
+        next: () => {
+          book.archived = !book.archived;
+        },
+      });
+  }
 
   goToFirstPage() {
     this.page = 0;

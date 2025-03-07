@@ -7,18 +7,18 @@ import {
 import { BookService } from '../../../../services/services';
 import { BookCardComponent } from '../../components/book-card/book-card.component';
 
-const fakeBook: BookResponse = {
-  archived: false,
-  authorName: 'Nikita',
-  cover: 'https://random-image-pepebigotes.vercel.app/api/random-image',
-  id: 101,
-  isbn: 'ADFT852',
-  ownerName: 'Shital',
-  rating: 4.2,
-  sharable: false,
-  synopsis: 'good one',
-  title: 'Positive Attribute',
-};
+// const fakeBook: BookResponse = {
+//   archived: false,
+//   authorName: 'Nikita',
+//   cover: 'https://random-image-pepebigotes.vercel.app/api/random-image',
+//   id: 101,
+//   isbn: 'ADFT852',
+//   ownerName: 'Shital',
+//   rating: 4.2,
+//   sharable: false,
+//   synopsis: 'good one',
+//   title: 'Positive Attribute',
+// };
 
 @Component({
   selector: 'app-book-list',
@@ -30,11 +30,11 @@ const fakeBook: BookResponse = {
 export class BookListComponent implements OnInit {
   private bookService = inject(BookService);
   private router = inject(Router);
-  bookDemo = fakeBook;
 
   bookResponse: PageResponseBookResponse = {};
   page = 0;
   size = 5;
+  pages: number[] = [];
   message = '';
   level = '';
 
@@ -47,6 +47,9 @@ export class BookListComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.bookResponse = response;
+          this.pages = Array(this.bookResponse.totalPages)
+            .fill(0)
+            .map((x, i) => i);
         },
       });
   }

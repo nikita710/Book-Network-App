@@ -10,6 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class BookRequest {
+    private Integer id;
 
     @NotNull(message = "100")
     @NotEmpty(message = "100")
@@ -27,4 +28,5 @@ public class BookRequest {
     @NotEmpty(message = "103")
     private String synopsis;
 
+    private boolean sharable;
 }

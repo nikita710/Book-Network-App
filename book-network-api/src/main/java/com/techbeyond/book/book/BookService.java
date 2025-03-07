@@ -32,14 +32,10 @@ public class BookService {
 
     public Integer createBook(BookRequest bookRequest, Authentication connectedUser) {
         User user = (User) connectedUser.getPrincipal();
-        Book book = new Book();
-        book.setTitle(bookRequest.getTitle());
-        book.setAuthorName(bookRequest.getAuthorName());
-        book.setIsbn(bookRequest.getIsbn());
-        book.setSynopsis(bookRequest.getSynopsis());
-        book.setArchived(false);
+        Book book = bookMapper.bookRequestToBook(bookRequest);
         book.setOwner(user);
         Book savedBook = bookRepository.save(book);
+
         return savedBook.getId();
     }
 
@@ -195,7 +191,7 @@ public class BookService {
 
         User user = (User) connectedUser.getPrincipal();
 
-        if (Objects.equals(book.getOwner().getId(), user.getId())) {
+        if (!Objects.equals(book.getOwner().getId(), user.getId())) {
             throw new OperationNotPermittedException("You cannot return your own book!");
         }
 

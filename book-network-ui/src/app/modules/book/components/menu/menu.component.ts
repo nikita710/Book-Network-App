@@ -22,6 +22,7 @@ export class MenuComponent implements OnInit {
     });
   }
   logout() {
-    throw new Error('Method not implemented.');
+    localStorage.clear();
+    window.location.reload();
   }
 }

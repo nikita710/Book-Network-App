@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { BookRequest } from '../../../../services/models';
 import { BookService } from '../../../../services/services';
 
@@ -11,9 +11,10 @@ import { BookService } from '../../../../services/services';
   styleUrl: './manage-book.component.scss',
   standalone: true,
 })
-export class ManageBookComponent {
+export class ManageBookComponent implements OnInit {
   private bookService = inject(BookService);
   private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
 
   errorMsg: string[] = [];
   selectedPicture = '';
@@ -24,6 +25,32 @@ export class ManageBookComponent {
     isbn: '',
     synopsis: '',
   };
+
+  ngOnInit(): void {
+    this.activatedRoute.params.subscribe((params) => {
+      if (params['bookId']) {
+        this.bookService
+          .findByBookId({
+            'book-id': params['bookId'],
+          })
+          .subscribe({
+            next: (book) => {
+              this.bookRequest = {
+                id: book.id,
+                title: book.title as string,
+                authorName: book.authorName as string,
+                isbn: book.isbn as string,
+                synopsis: book.synopsis as string,
+                sharable: book.sharable as boolean,
+              };
+              if (book.cover) {
+                this.selectedPicture = 'data:image/jpg;base64,' + book.cover;
+              }
+            },
+          });
+      }
+    });
+  }
 
   onFileSelected(event: any) {
     this.selectedBookCover = event.target?.files[0];

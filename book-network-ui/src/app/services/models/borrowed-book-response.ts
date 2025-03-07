@@ -9,6 +9,5 @@ export interface BorrowedBookResponse {
   rating?: number;
   returnApproved?: boolean;
   returned?: boolean;
-  synopsis?: string;
   title?: string;
 }

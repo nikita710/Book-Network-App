@@ -22,13 +22,13 @@ export class BookCardComponent implements OnInit {
   showDetails = output<BookResponse>();
 
   ngOnInit(): void {
-    // if (this.book().cover) {
-    //   this.bookCover.set('data:image/jpg;base64,' + this.book().cover);
-    // } else {
-    //   this.bookCover.set(
-    //     'https://random-image-pepebigotes.vercel.app/api/random-image'
-    //   );
-    // }
+    if (this.book().cover) {
+      this.bookCover.set('data:image/jpg;base64,' + this.book().cover);
+    } else {
+      this.bookCover.set(
+        'https://random-image-pepebigotes.vercel.app/api/random-image'
+      );
+    }
   }
 
   onArchive() {

@@ -1,5 +1,5 @@
 <div
-  class="card"
+  class="card border-2"
   [style]="{ width: '20rem' }"
   [class.border-success]="book().sharable"
   [class.border-warning]="book().archived"
@@ -7,7 +7,7 @@
   <img
     height="200"
     width="200"
-    [src]="book().cover"
+    [src]="bookCover()"
     class="card-img-top"
     alt="..."
   />
@@ -40,9 +40,21 @@
     </div>
     @if (!manage()) {
     <div class="d-flex gap-2">
-      <i (click)="onShowDetails()" class="fas fa-circle-info text-primary"></i>
-      <i (click)="onBorrow()" class="fas fa-list-check text-primary"></i>
-      <i (click)="onAddToWaitingList()" class="fas fa-heart text-danger"></i>
+      <i
+        title="Details"
+        (click)="onShowDetails()"
+        class="fas fa-circle-info text-primary"
+      ></i>
+      <i
+        title="Borrow"
+        (click)="onBorrow()"
+        class="fas fa-list-check text-primary"
+      ></i>
+      <i
+        title="Add to waiting list"
+        (click)="onAddToWaitingList()"
+        class="fas fa-heart text-danger"
+      ></i>
     </div>
     } @else {
     <div class="d-flex gap-2">

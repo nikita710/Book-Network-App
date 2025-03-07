@@ -1,13 +1,13 @@
 import { Routes } from '@angular/router';
-import { MainComponent } from './modules/book/pages/main/main.component';
 import { ActivateAccountComponent } from './pages/activate-account/activate-account.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { authGuard } from './services/guard/auth.guard';
 
 export const routes: Routes = [
   {
     path: '',
-    component: MainComponent,
+    component: LoginComponent,
   },
   {
     path: 'login',
@@ -25,5 +25,6 @@ export const routes: Routes = [
     path: 'books',
     loadChildren: () =>
       import('./modules/book/books.routes').then((m) => m.booksRoutes),
+    canActivate: [authGuard],
   },
 ];

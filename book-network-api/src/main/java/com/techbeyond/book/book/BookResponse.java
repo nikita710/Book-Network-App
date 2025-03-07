@@ -19,6 +19,4 @@ public class BookResponse {
     private boolean archived;
     private boolean sharable;
     private String ownerName;
-
-
 }
